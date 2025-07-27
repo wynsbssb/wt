@@ -1,5 +1,5 @@
 -- 脚本主体
-local Rayfield = loadstring(game:HttpGet("https://raw.gitcode.com/wynsbssb/ZEFG/raw/main/uitest"))()
+local Rayfield = loadstring(game:HttpGet("https://raw.githubusercontent.com/wynsbssb/wt/refs/heads/main/uitest.lua"))()
 local player = game.Players.LocalPlayer
 local userId = player.UserId
 local Heartbeat = game:GetService("RunService").Heartbeat
