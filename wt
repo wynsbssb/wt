@@ -1,0 +1,2261 @@
+-- 脚本主体
+local Rayfield = loadstring(game:HttpGet("https://raw.gitcode.com/wynsbssb/ZEFG/raw/main/uitest"))()
+local player = game.Players.LocalPlayer
+local userId = player.UserId
+local Heartbeat = game:GetService("RunService").Heartbeat
+local Window = Rayfield:CreateWindow({
+    Name = "SN|BETA",
+    Icon = 0,
+    LoadingTitle = "SN脚本",
+    LoadingSubtitle = "",
+    Theme = "Bloom",
+
+    DisableRayfieldPrompts = true,
+    DisableBuildWarnings = false,
+
+    ConfigurationSaving = {
+        Enabled = true,
+        FolderName = "2888877777777777542587777777",
+        FileName = "77588888888887444"
+    },
+
+    Discord = {
+        Enabled = false,
+        Invite = "noinvitelink",
+        RememberJoins = false
+    },
+
+    KeySystem = false,
+    KeySettings = {
+        Title = "SN卡密验证系统",
+        Subtitle = "密钥系统",
+        Note = "加入Discord以获得限时卡密\ndiscord.gg/fQg2mn5seZ",
+        FileName = "SNkey",
+        SaveKey = false,
+        GrabKeyFromSite = true,
+        Key = {"https://raw.gitcode.com/wynsbssb/RGSWASD/raw/main/KEY"}
+    }
+})
+
+local Tab = Window:CreateTab("玩家信息")
+
+local Paragraph = Tab:CreateParagraph({
+    Title = "您的用户名:",
+    Content = game.Players.LocalPlayer.Name
+})
+local Paragraph = Tab:CreateParagraph({
+    Title = "您的注入器:",
+    Content = identifyexecutor()
+})
+local Paragraph = Tab:CreateParagraph({
+    Title = "您当前服务器的ID",
+    Content = Game.GameId
+})
+local Paragraph = Tab:CreateParagraph({
+    Title = "当前版本:BETA",
+    Content = userId
+})
+local Paragraph = Tab:CreateParagraph({
+    Title = "DISCORD",
+    Content = "https://discord.gg/fQg2mn5seZ"
+})
+
+Rayfield:Notify({
+    Title = "SN脚本",
+    Content = "欢迎使用",
+    Duration = 6.5,
+    Image = 136577143866455
+})
+
+local Tab = Window:CreateTab("基础功能")
+local Button = Tab:CreateButton({
+    Name = "华丽的通用脚本",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.gitcode.com/wynsbssb/ZEFG/raw/main/uitest1"))()
+    end
+})
+
+local Button = Tab:CreateButton({
+    Name = "防甩飞",
+    Callback = function()
+        local Services = setmetatable({}, {
+            __index = function(Self, Index)
+                local NewService = game.GetService(game, Index)
+                if NewService then
+                    Self[Index] = NewService
+                end
+                return NewService
+            end
+        })
+
+        local LocalPlayer = Services.Players.LocalPlayer
+
+        local function PlayerAdded(Player)
+            local Detected = false
+            local Character;
+            local PrimaryPart;
+
+            local function CharacterAdded(NewCharacter)
+                Character = NewCharacter
+                repeat
+                    wait()
+                    PrimaryPart = NewCharacter:FindFirstChild("HumanoidRootPart")
+                until PrimaryPart
+                Detected = false
+            end
+
+            CharacterAdded(Player.Character or Player.CharacterAdded:Wait())
+            Player.CharacterAdded:Connect(CharacterAdded)
+            Services.RunService.Heartbeat:Connect(function()
+                if (Character and Character:IsDescendantOf(workspace)) and
+                    (PrimaryPart and PrimaryPart:IsDescendantOf(Character)) then
+                    if PrimaryPart.AssemblyAngularVelocity.Magnitude > 50 or
+                        PrimaryPart.AssemblyLinearVelocity.Magnitude > 100 then
+                        if Detected == false then
+                            game.StarterGui:SetCore("ChatMakeSystemMessage", {
+                                Text = "Fling Exploit Detected Player : " .. tostring(Player),
+                                Color = Color3.fromRGB(255, 200, 0)
+                            })
+                        end
+                        Detected = true
+                        for i, v in ipairs(Character:GetDescendants()) do
+                            if v:IsA("BasePart") then
+                                v.CanCollide = false
+                                v.AssemblyAngularVelocity = Vector3.new(0, 0, 0)
+                                v.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
+                                v.CustomPhysicalProperties = PhysicalProperties.new(0, 0, 0)
+                            end
+                        end
+                        PrimaryPart.CanCollide = false
+                        PrimaryPart.AssemblyAngularVelocity = Vector3.new(0, 0, 0)
+                        PrimaryPart.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
+                        PrimaryPart.CustomPhysicalProperties = PhysicalProperties.new(0, 0, 0)
+                    end
+                end
+            end)
+        end
+
+        for i, v in ipairs(Services.Players:GetPlayers()) do
+            if v ~= LocalPlayer then
+                PlayerAdded(v)
+            end
+        end
+        Services.Players.PlayerAdded:Connect(PlayerAdded)
+    end
+})
+
+local Button = Tab:CreateButton({
+    Name = "选人甩飞（需要输入别人的名字）",
+    Callback = function()
+
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/GhostPlayer352/Test4/main/Auto%20Fling%20Player'))()
+
+    end
+})
+
+local Button = Tab:CreateButton({
+    Name = "删除所有门",
+    Callback = function()
+        local tycoons = workspace:FindFirstChild("Tycoon")
+        if not tycoons then
+            return
+        end
+        tycoons = tycoons:FindFirstChild("Tycoons")
+        if not tycoons then
+            return
+        end
+
+        for _, tycoon in ipairs(tycoons:GetChildren()) do
+            local purchasedObjects = tycoon:FindFirstChild("PurchasedObjects")
+            if purchasedObjects then
+                for _, obj in ipairs(purchasedObjects:GetChildren()) do
+                    local lowerName = obj.Name:lower()
+                    if lowerName:match("door") or lowerName:match("gate") then
+                        obj:Destroy()
+                    end
+                end
+            end
+        end
+    end
+})
+
+local Button = Tab:CreateButton({
+    Name = "撸管脚本R6",
+    Callback = function()
+
+        loadstring(game:HttpGet("https://pastefy.app/wa3v2Vgm/raw"))()
+
+    end
+
+})
+
+local Button = Tab:CreateButton({
+    Name = "交互按钮无CD",
+    Callback = function()
+        if not connection then
+            connection = game:GetService("ProximityPromptService").PromptButtonHoldBegan:Connect(function(prompt)
+                prompt.HoldDuration = 0
+            end)
+        end
+    end
+})
+
+local Button = Tab:CreateButton({
+    Name = "阿尔宙斯自瞄",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/AZYsGithub/chillz-workshop/main/Arceus%20Aimbot.lua"))()
+    end
+})
+
+local Button = Tab:CreateButton({
+    Name = "IY指令",
+    Callback = function()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+    end
+})
+
+local Button = Tab:CreateButton({
+
+    Name = "死亡笔记",
+
+    Callback = function()
+
+        loadstring(game:HttpGet(
+            "https://raw.githubusercontent.com/xiaopi77/xiaopi77/main/1_1.txt_2024-08-08_153358.OTed.lua"))()
+
+    end
+
+})
+
+local Tab = Window:CreateTab("武器功能")
+
+local Button = Tab:CreateButton({
+    Name = "RPG无限子弹",
+    Callback = function()
+
+        local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+        local configurations = ReplicatedStorage:WaitForChild("Configurations")
+        local acsGuns = configurations:WaitForChild("ACS_Guns")
+        local rpgFolder = acsGuns:WaitForChild("RPG")
+        local settingsModule = rpgFolder:WaitForChild("Settings")
+
+        if settingsModule and settingsModule:IsA("ModuleScript") then
+
+            local gunConfig = require(settingsModule)
+
+            gunConfig.Ammo = 5000000
+            gunConfig.FireRate = 1000000000
+            gunConfig.VRecoil = {0, 0}
+            gunConfig.HRecoil = {0, 0}
+            gunConfig.BSpeed = 100000000
+            gunConfig.BDrop = 0
+            gunConfig.MinSpread = 0
+            gunConfig.MaxSpread = 0
+            gunConfig.DamageMultiplier = 1000000000
+            gunConfig.Distance = 1000000000
+            gunConfig.VRecoil = {0, 0}
+            gunConfig.HRecoil = {0, 0}
+            gunConfig.RecoilPunch = 0
+            gunConfig.VPunchBase = 0
+            gunConfig.HPunchBase = 0
+            gunConfig.DPunchBase = 0
+            gunConfig.MinRecoilPower = 0
+            gunConfig.MaxRecoilPower = 0
+            gunConfig.BSpeed = 100000000
+            gunConfig.BDrop = 0
+            gunConfig.MinSpread = 0
+            gunConfig.MaxSpread = 0
+
+        end
+
+    end
+})
+
+local Button = Tab:CreateButton({
+    Name = "标枪无限子弹",
+    Callback = function()
+        local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+        local configurations = ReplicatedStorage:WaitForChild("Configurations")
+        local acsGuns = configurations:WaitForChild("ACS_Guns")
+        local rpgFolder = acsGuns:WaitForChild("Javelin")
+        local settingsModule = rpgFolder:WaitForChild("Settings")
+
+        if settingsModule and settingsModule:IsA("ModuleScript") then
+
+            local gunConfig = require(settingsModule)
+
+            gunConfig.Ammo = 5000000
+            gunConfig.FireRate = 1000000000
+            gunConfig.VRecoil = {0, 0}
+            gunConfig.HRecoil = {0, 0}
+            gunConfig.BSpeed = 100000000
+            gunConfig.BDrop = 0
+            gunConfig.MinSpread = 0
+            gunConfig.MaxSpread = 0
+            gunConfig.DamageMultiplier = 1000000000
+            gunConfig.Distance = 1000000000
+            gunConfig.VRecoil = {0, 0}
+            gunConfig.HRecoil = {0, 0}
+            gunConfig.RecoilPunch = 0
+            gunConfig.VPunchBase = 0
+            gunConfig.HPunchBase = 0
+            gunConfig.DPunchBase = 0
+            gunConfig.MinRecoilPower = 0
+            gunConfig.MaxRecoilPower = 0
+            gunConfig.BSpeed = 100000000
+            gunConfig.BDrop = 0
+            gunConfig.MinSpread = 0
+            gunConfig.MaxSpread = 0
+
+        end
+
+    end
+})
+
+local Tab = Window:CreateTab("RPG功能")
+
+local Section = Tab:CreateSection("全图攻击(降频版)")
+
+do
+    local loopActive = false
+
+    local Toggle = Tab:CreateToggle({
+        Name = "全图",
+        CurrentValue = false,
+        Flag = "Toggle1",
+        Callback = function(Value)
+            loopActive = Value
+
+            if Value then
+                coroutine.wrap(function()
+
+                    local Players = game:GetService("Players")
+                    local LocalPlayer = Players.LocalPlayer
+                    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+                    local RocketSystem = ReplicatedStorage:WaitForChild("RocketSystem")
+                    local FireRocket = RocketSystem.Events.FireRocket
+                    local RocketHit = RocketSystem.Events.RocketHit
+
+                    local attackPhase = "attack"
+                    local phaseStartTime = os.clock()
+
+                    local function attackProcedure()
+
+                        local character = LocalPlayer.Character
+                        if not character then
+                            return
+                        end
+                        local rootPart = character:FindFirstChild("HumanoidRootPart")
+                        if not rootPart then
+                            return
+                        end
+
+                        local attackPosition = rootPart.Position + Vector3.new(0, 1000, 0)
+
+                        local allPlayers = Players:GetPlayers()
+                        local targets = {}
+
+                        for _, player in ipairs(allPlayers) do
+                            if player ~= LocalPlayer and player.Character then
+                                table.insert(targets, player.Character:FindFirstChild("HumanoidRootPart"))
+                            end
+                        end
+
+                        local weapon = LocalPlayer.Character:FindFirstChild("RPG")
+                        if weapon then
+                            for _, target in ipairs(targets) do
+                                if target then
+                                    FireRocket:InvokeServer(Vector3.new(), weapon, weapon, attackPosition)
+
+                                    RocketHit:FireServer(attackPosition, Vector3.new(), weapon, weapon, target, nil,
+                                        "asdfghvcqawRocket4")
+                                    task.wait(0.1)
+                                end
+                            end
+                        end
+                    end
+
+                    while loopActive do
+                        local currentTime = os.clock()
+                        local elapsed = currentTime - phaseStartTime
+
+                        if attackPhase == "attack" and elapsed >= 3 then
+                            attackPhase = "pause"
+                            phaseStartTime = os.clock()
+                        elseif attackPhase == "pause" and elapsed >= 2 then
+                            attackPhase = "attack"
+                            phaseStartTime = os.clock()
+                        end
+
+                        if attackPhase == "attack" then
+                            attackProcedure()
+                        end
+
+                        task.wait(0.1)
+                    end
+                end)()
+            end
+        end
+    })
+end
+
+
+local Section = Tab:CreateSection("全图攻击(高效版)")
+
+do
+    local loopActive = false
+
+    local Toggle = Tab:CreateToggle({
+        Name = "全图攻击",
+        CurrentValue = false,
+        Flag = "Toggle1",
+        Callback = function(Value)
+            loopActive = Value
+            if Value then
+                coroutine.wrap(function()
+                    -- 获取核心服务
+                    local Players = game:GetService("Players")
+                    local LocalPlayer = Players.LocalPlayer
+                    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+                    local RunService = game:GetService("RunService")
+                    
+                    -- 动态获取火箭系统
+                    local RocketSystem = ReplicatedStorage:WaitForChild("RocketSystem")
+                    local FireRocket = RocketSystem.Events:WaitForChild("FireRocket")
+                    local RocketHit = RocketSystem.Events:WaitForChild("RocketHit")
+
+                    -- 随机参数生成器
+                    local function GenerateFakeArgs()
+                        return {
+                            _t = tick() + math.random(-1, 1),
+                            _r = math.random(1, 10000),
+                            _c = math.random(1, 5)
+                        }
+                    end
+
+                    -- 攻击序列处理
+                    local function AttackSequence(character, weapon)
+                        if not character or not weapon then return end
+                        
+                        -- 获取角色位置
+                        local rootPart = character:FindFirstChild("HumanoidRootPart")
+                        if not rootPart then return end
+                        local attackPosition = rootPart.Position
+                        
+                        -- 创建伪时间戳（与真实时间略有偏移）
+                        local timestamp = os.clock() + math.random(-0.5, 0.5)
+                        
+                        -- 收集所有有效目标
+                        for _, player in ipairs(Players:GetPlayers()) do
+                            if player ~= LocalPlayer and player.Character then
+                                local targetRoot = player.Character:FindFirstChild("HumanoidRootPart")
+                                local humanoid = player.Character:FindFirstChild("Humanoid")
+                                
+                                if targetRoot and humanoid and humanoid.Health > 0 then
+                                    -- 创建临时碰撞目标
+                                    local fakeTarget = Instance.new("Part")
+                                    fakeTarget.Name = "TempTarget_"..player.UserId
+                                    fakeTarget.CFrame = CFrame.new(targetRoot.Position)
+                                    fakeTarget.Parent = workspace
+                                    
+                                    -- 随机弹药类型选择
+                                    local ammoTypes = {"Rocket", "G-Rocket", "Javelin", "RPG_Rocket"}
+                                    local ammoId = ammoTypes[math.random(1, #ammoTypes)]
+                                    
+                                    -- 发送攻击指令（包含随机参数）
+                                    pcall(function()
+                                        FireRocket:InvokeServer(
+                                            Vector3.new(math.random(-1,1), math.random(-1,1), math.random(-1,1)),
+                                            weapon,
+                                            weapon,
+                                            attackPosition,
+                                            GenerateFakeArgs()
+                                        )
+                                        
+                                        RocketHit:FireServer(
+                                            targetRoot.Position,
+                                            Vector3.new(0, 1, 0),
+                                            weapon,
+                                            weapon,
+                                            fakeTarget,
+                                            timestamp,
+                                            ammoId,
+                                            GenerateFakeArgs()
+                                        )
+                                    end)
+                                    
+                                    -- 销毁临时目标
+                                    game:GetService("Debris"):AddItem(fakeTarget, 0.5)
+                                    
+                                    -- 添加微延迟（避免高频触发）
+                                    RunService.Heartbeat:Wait()
+                                end
+                            end
+                        end
+                    end
+
+                    while loopActive do
+                        local character = LocalPlayer.Character
+                        if not character then
+                            task.wait(0.5)
+                            continue
+                        end
+                        
+                        -- 获取当前武器（支持RPG和标枪）
+                        local weapon = character:FindFirstChild("RPG") or 
+                                      character:FindFirstChild("Javelin")
+                                      
+                        -- 执行攻击序列
+                        if weapon then
+                            AttackSequence(character, weapon)
+                        else
+                            -- 如果没有武器，创建虚拟武器对象
+                            local fakeWeapon = Instance.new("Part")
+                            fakeWeapon.Name = "RPG"
+                            fakeWeapon.Parent = character
+                            AttackSequence(character, fakeWeapon)
+                            fakeWeapon:Destroy()
+                        end
+                        
+                        -- 随机心跳间隔（0.1-0.3秒）
+                        task.wait(math.random() * 0.2 + 0.1)
+                    end
+                end)()
+            end
+        end
+    })
+end
+
+
+
+
+local Section = Tab:CreateSection("护盾攻击")
+
+local Toggle = Tab:CreateToggle({
+    Name = "护盾攻击(降频版)",
+    CurrentValue = false,
+    Flag = "Toggle2",
+    Callback = function(Value)
+        local Players = game:GetService("Players")
+        local ReplicatedStorage = game:GetService("ReplicatedStorage")
+        local LocalPlayer = Players.LocalPlayer
+
+        local function GenerateRocketID()
+            local letters = {}
+            for i = 1, math.random(1, 15) do
+                letters[i] = string.char(math.random(65, 90))
+            end
+            return table.concat(letters) .. "Rocket" .. tostring(math.random(1, 1000))
+        end
+
+        local function GetTargets()
+            local targets = {}
+            local tycoonFolder = workspace:WaitForChild("Tycoon"):WaitForChild("Tycoons")
+
+            for _, tycoon in ipairs(tycoonFolder:GetChildren()) do
+                local shield = tycoon:FindFirstChild("PurchasedObjects", true) and
+                                   tycoon.PurchasedObjects:FindFirstChild("Base Shield", true) and
+                                   tycoon.PurchasedObjects["Base Shield"]:FindFirstChild("Shield", true) and
+                                   tycoon.PurchasedObjects["Base Shield"].Shield:FindFirstChild("Shield4", true)
+
+                if shield then
+                    table.insert(targets, shield)
+                end
+            end
+            return targets
+        end
+
+        local function LaunchAttack()
+            local rpg = LocalPlayer.Character:FindFirstChild("RPG")
+            if not rpg then
+                return
+            end
+
+            local attackPosition = LocalPlayer.Character.HumanoidRootPart.Position + Vector3.new(0, 1000, 0)
+
+            local targets = GetTargets()
+            for _, shield in ipairs(targets) do
+                local fireArgs = {Vector3.new(0, 0, 0), rpg, rpg, attackPosition}
+
+                for _ = 1, 1 do
+                    local hitArgs = {attackPosition, Vector3.new(0, -1, 0), rpg, rpg, shield, nil, GenerateRocketID()}
+
+                    task.spawn(function()
+                        ReplicatedStorage.RocketSystem.Events.RocketHit:FireServer(unpack(hitArgs))
+                        ReplicatedStorage.RocketSystem.Events.FireRocket:InvokeServer(unpack(fireArgs))
+                    end)
+                end
+            end
+        end
+
+        if Value then
+            coroutine.wrap(function()
+                while Value do
+                    LaunchAttack()
+                    task.wait(2)
+                end
+            end)()
+        end
+    end
+})
+
+local Section = Tab:CreateSection("全图RPG增强版")
+
+do
+    local loopActive = false
+    local numRockets = 1
+
+    local Toggle = Tab:CreateToggle({
+        Name = "全图RPG增强版",
+        CurrentValue = false,
+        Flag = "Toggle3",
+        Callback = function(Value)
+            loopActive = Value
+
+            if Value then
+                coroutine.wrap(function()
+                    local Players = game:GetService("Players")
+                    local LocalPlayer = Players.LocalPlayer
+                    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+                    local RocketSystem = ReplicatedStorage:WaitForChild("RocketSystem")
+                    local FireRocket = RocketSystem.Events.FireRocket
+                    local RocketHit = RocketSystem.Events.RocketHit
+
+                    local function generateRandomRocketName()
+                        local chars = {}
+                        for i = 1, math.random(4, 20) do
+                            local case = math.random(0, 1)
+                            chars[i] = case == 0 and string.char(math.random(65, 90)) or
+                                           string.char(math.random(97, 122))
+                        end
+                        return table.concat(chars) .. "Rocket" .. math.random(1, 1000)
+                    end
+
+                    while loopActive do
+
+                        local character = LocalPlayer.Character
+                        if not character then
+                            return
+                        end
+                        local rootPart = character:FindFirstChild("HumanoidRootPart")
+                        if not rootPart then
+                            return
+                        end
+                        local attackPosition = rootPart.Position + Vector3.new(0, 1000, 0)
+
+                        local allPlayers = Players:GetPlayers()
+                        local targets = {}
+
+                        for _, player in ipairs(allPlayers) do
+                            if player ~= LocalPlayer and player.Character then
+                                table.insert(targets, player.Character:FindFirstChild("Head"))
+                            end
+                        end
+
+                        local weapon = LocalPlayer.Character:FindFirstChild("RPG")
+                        if weapon then
+
+                            local fireTasks = {}
+
+                            for _, target in ipairs(targets) do
+                                if target then
+
+                                    for _ = 1, numRockets do
+                                        table.insert(fireTasks, function()
+
+                                            local rocketName = generateRandomRocketName()
+
+                                            local fireArgs = {Vector3.new(), weapon, weapon, attackPosition}
+
+                                            local hitArgs = {attackPosition, Vector3.new(), weapon, weapon, target, nil,
+                                                             rocketName}
+
+                                            FireRocket:InvokeServer(unpack(fireArgs))
+                                            RocketHit:FireServer(unpack(hitArgs))
+                                        end)
+                                    end
+                                end
+                            end
+
+                            for _, task in ipairs(fireTasks) do
+                                coroutine.wrap(task)()
+                            end
+                        end
+                        task.wait(0.000001)
+                    end
+                end)()
+            end
+        end
+    })
+
+    local Input = Tab:CreateInput({
+        Name = "发射RPG数量",
+        CurrentValue = "",
+        PlaceholderText = "发射数量",
+        RemoveTextAfterFocusLost = false,
+        Flag = "Input1",
+        Callback = function(Text)
+
+            numRockets = tonumber(Text) or 1
+        end
+    })
+end
+
+local Section = Tab:CreateSection("自动发射RPG(崩服神器)")
+
+do
+    local loopActive = false
+    local numRockets = 1
+    local fireDistance = 20
+    local fireDiameter = 0
+
+    local Toggle = Tab:CreateToggle({
+        Name = "开始发射",
+        CurrentValue = false,
+        Flag = "Toggle3",
+        Callback = function(Value)
+            loopActive = Value
+
+            if Value then
+                coroutine.wrap(function()
+                    local Players = game:GetService("Players")
+                    local LocalPlayer = Players.LocalPlayer
+                    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+                    local RocketSystem = ReplicatedStorage:WaitForChild("RocketSystem")
+                    local FireRocket = RocketSystem.Events.FireRocket
+                    local RocketHit = RocketSystem.Events.RocketHit
+
+                    local function generateRocketID()
+                        return string.format("%X%X%X", math.random(0x1000, 0xFFFF), math.random(0x1000, 0xFFFF),
+                            os.time())
+                    end
+
+                    local function calculateSpreadPosition(basePos)
+                        if fireDiameter > 0 then
+                            local radius = fireDiameter / 2
+
+                            local r = math.sqrt(math.random()) * radius
+                            local angle = math.rad(math.random(0, 360))
+
+                            local yOffset = math.random(-radius, radius)
+
+                            return basePos + Vector3.new(math.cos(angle) * r, yOffset, math.sin(angle) * r)
+                        end
+                        return basePos
+                    end
+
+                    while loopActive do
+                        local weapon = LocalPlayer.Character:FindFirstChild("RPG")
+                        if weapon then
+                            local Camera = workspace.CurrentCamera
+                            if Camera then
+                                local baseCFrame = Camera.CFrame
+                                local basePosition = baseCFrame.Position + (baseCFrame.LookVector * fireDistance)
+
+                                for i = 1, numRockets do
+                                    coroutine.wrap(function()
+                                        local targetPos = calculateSpreadPosition(basePosition)
+                                        local rocketID = generateRocketID()
+                                        FireRocket:InvokeServer(Vector3.new(), weapon, weapon, targetPos)
+                                        RocketHit:FireServer(targetPos, Vector3.new(), weapon, weapon, nil, nil,
+                                            rocketID)
+                                    end)()
+                                end
+                            end
+                        end
+                        task.wait()
+                    end
+                end)()
+            end
+        end
+    })
+
+    local Input1 = Tab:CreateInput({
+        Name = "发射数量",
+        CurrentValue = "",
+        PlaceholderText = "同时发射数量",
+        RemoveTextAfterFocusLost = false,
+        Flag = "RocketCount",
+        Callback = function(Text)
+            numRockets = math.max(tonumber(Text) or 1, 1)
+        end
+    })
+
+    local Input2 = Tab:CreateInput({
+        Name = "基础距离(米)",
+        CurrentValue = "",
+        PlaceholderText = "准心基础距离",
+        RemoveTextAfterFocusLost = false,
+        Flag = "BaseDistance",
+        Callback = function(Text)
+            fireDistance = tonumber(Text) or 20
+        end
+    })
+
+    local Input3 = Tab:CreateInput({
+        Name = "散布范围(米)",
+        CurrentValue = "",
+        PlaceholderText = "散布范围",
+        RemoveTextAfterFocusLost = false,
+        Flag = "SpreadRange",
+        Callback = function(Text)
+            fireDiameter = tonumber(Text) or 0
+        end
+    })
+end
+
+local Section = Tab:CreateSection("毒圈式攻击")
+
+do
+    local loopActive = false
+    local numRockets = 1
+    local initialDiameter = 0
+    local shrinkDuration = 0
+
+    local Toggle = Tab:CreateToggle({
+        Name = "开始发射",
+        CurrentValue = false,
+        Flag = "Toggle3",
+        Callback = function(Value)
+            loopActive = Value
+
+            if Value then
+                coroutine.wrap(function()
+                    local Players = game:GetService("Players")
+                    local LocalPlayer = Players.LocalPlayer
+                    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+                    local RocketSystem = ReplicatedStorage:WaitForChild("RocketSystem")
+                    local FireRocket = RocketSystem.Events.FireRocket
+                    local RocketHit = RocketSystem.Events.RocketHit
+                    local startTime = os.clock()
+
+                    local function generateRocketID()
+                        return string.format("%X%X%X", math.random(0x1000, 0xFFFF), math.random(0x1000, 0xFFFF),
+                            os.time())
+                    end
+
+                    while loopActive do
+                        local weapon = LocalPlayer.Character:FindFirstChild("RPG")
+                        if weapon then
+
+                            local targets = {}
+                            for _, player in ipairs(Players:GetPlayers()) do
+                                if player ~= LocalPlayer and player.Character then
+                                    local humanoidRootPart = player.Character:FindFirstChild("HumanoidRootPart")
+                                    if humanoidRootPart then
+                                        table.insert(targets, humanoidRootPart.Position)
+                                    end
+                                end
+                            end
+
+                            if #targets > 0 then
+                                local elapsedTime = os.clock() - startTime
+                                local currentDiameter = shrinkDuration > 0 and
+                                                            math.max(
+                                        initialDiameter * (1 - (elapsedTime / shrinkDuration)), 0) or initialDiameter
+
+                                for _, targetPos in ipairs(targets) do
+                                    for i = 1, numRockets do
+                                        coroutine.wrap(function()
+                                            if currentDiameter > 0 then
+                                                local radius = currentDiameter / 2
+                                                local r = math.sqrt(math.random()) * radius
+                                                local angle = math.rad(math.random(0, 360))
+                                                local spreadPos = targetPos +
+                                                                      Vector3.new(math.cos(angle) * r,
+                                                        math.random(-radius, radius), math.sin(angle) * r)
+                                                local rocketID = generateRocketID()
+                                                FireRocket:InvokeServer(Vector3.new(), weapon, weapon, spreadPos)
+                                                RocketHit:FireServer(spreadPos, Vector3.new(), weapon, weapon, nil, nil,
+                                                    rocketID)
+                                            end
+                                        end)()
+                                    end
+                                end
+
+                                if currentDiameter <= 0 then
+                                    task.wait(0.1)
+                                    loopActive = false
+                                    Toggle:Set(false)
+                                end
+                            end
+                        end
+                        task.wait()
+                    end
+                end)()
+            end
+        end
+    })
+
+    Tab:CreateInput({
+        Name = "单轮数量",
+        PlaceholderText = "每个玩家发射数量",
+        RemoveTextAfterFocusLost = false,
+        Callback = function(Text)
+            numRockets = math.max(tonumber(Text) or 1, 1)
+        end
+    })
+
+    Tab:CreateInput({
+        Name = "初始散布",
+        PlaceholderText = "起始散布范围",
+        RemoveTextAfterFocusLost = false,
+        Callback = function(Text)
+            initialDiameter = tonumber(Text) or 0
+        end
+    })
+
+    Tab:CreateInput({
+        Name = "缩小时长",
+        PlaceholderText = "范围缩小时间(秒)",
+        RemoveTextAfterFocusLost = false,
+        Callback = function(Text)
+            shrinkDuration = math.max(tonumber(Text) or 0, 0)
+        end
+    })
+end
+
+local Section = Tab:CreateSection("指定玩家攻击")
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RocketSystem = ReplicatedStorage:WaitForChild("RocketSystem")
+local FireRocket = RocketSystem.Events.FireRocket
+local RocketHit = RocketSystem.Events.RocketHit
+
+local attackActive = false
+
+local function getAttackPosition()
+    local LocalPlayer = Players.LocalPlayer
+    if LocalPlayer.Character then
+        local rootPart = LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+        if rootPart then
+            return rootPart.Position + Vector3.new(0, 1000, 0)
+        end
+    end
+    return Vector3.new(0, 0, 0)
+end
+
+local function generateRandomString(length)
+    local chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    local result = ""
+    for i = 1, length do
+        local randomIndex = math.random(1, #chars)
+        result = result .. string.sub(chars, randomIndex, randomIndex)
+    end
+    return result
+end
+
+local attackTargetsDropdown = Tab:CreateDropdown({
+    Name = "攻击玩家选择(多选)",
+    Options = {},
+    CurrentOption = {},
+    MultipleOptions = true,
+    MaxSelection = 5,
+    Flag = "AttackTargets",
+    Callback = function()
+    end,
+    UpdatePlayers = function(self)
+        local newOptions = {}
+        for _, player in ipairs(Players:GetPlayers()) do
+            table.insert(newOptions, player.Name)
+        end
+        table.sort(newOptions, function(a, b)
+            return string.lower(a) < string.lower(b)
+        end)
+        self:Refresh(newOptions)
+    end
+})
+attackTargetsDropdown:UpdatePlayers()
+
+Tab:CreateButton({
+    Name = "刷新玩家列表",
+    Callback = function()
+        attackTargetsDropdown:UpdatePlayers()
+    end
+})
+
+Tab:CreateToggle({
+    Name = "开始攻击",
+    CurrentValue = false,
+    Flag = "RocketAttack",
+    Callback = function(Value)
+        attackActive = Value
+        if Value then
+            while attackActive and task.wait(0.1) do
+                local LocalPlayer = Players.LocalPlayer
+                if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
+                    local weapon = LocalPlayer.Character:FindFirstChild("RPG")
+                    if weapon then
+                        local attackPos = getAttackPosition()
+                        for _, targetName in ipairs(attackTargetsDropdown.CurrentOption) do
+                            if not attackActive then
+                                break
+                            end
+                            local player = Players:FindFirstChild(targetName)
+                            if player and player.Character then
+                                local head = player.Character:FindFirstChild("Head")
+                                if head then
+                                    local rocketName = generateRandomString(12) .. "Rocket" .. math.random(1, 100)
+                                    pcall(function()
+
+                                        FireRocket:InvokeServer(Vector3.new(), weapon, weapon, attackPos)
+
+                                        RocketHit:FireServer(attackPos, Vector3.new(), weapon, weapon, head, nil,
+                                            rocketName)
+                                    end)
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+})
+
+local Section = Tab:CreateSection("排除玩家攻击")
+
+local excludeTargetsDropdown = Tab:CreateDropdown({
+    Name = "不攻击的玩家(多选)",
+    Options = {},
+    CurrentOption = {},
+    MultipleOptions = true,
+    MaxSelection = 5,
+    Flag = "ExcludeTargets",
+    Callback = function()
+    end,
+    UpdatePlayers = function(self)
+        local newOptions = {}
+        for _, player in ipairs(Players:GetPlayers()) do
+            table.insert(newOptions, player.Name)
+        end
+        table.sort(newOptions, function(a, b)
+            return string.lower(a) < string.lower(b)
+        end)
+        self:Refresh(newOptions)
+    end
+})
+excludeTargetsDropdown:UpdatePlayers()
+
+local excludeAttackActive = false
+
+Tab:CreateButton({
+    Name = "刷新玩家列表",
+    Callback = function()
+        excludeTargetsDropdown:UpdatePlayers()
+    end
+})
+
+Tab:CreateToggle({
+    Name = "开启攻击",
+    CurrentValue = false,
+    Flag = "ExcludeAttack",
+    Callback = function(Value)
+        excludeAttackActive = Value
+        if Value then
+            while excludeAttackActive and task.wait() do
+                local LocalPlayer = Players.LocalPlayer
+                if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
+                    local weapon = LocalPlayer.Character:FindFirstChild("RPG")
+                    if weapon then
+                        local attackPos = getAttackPosition()
+                        local excludeList = {}
+                        for _, name in ipairs(excludeTargetsDropdown.CurrentOption) do
+                            excludeList[name] = true
+                        end
+
+                        local attackEnd = os.clock() + 1
+                        while os.clock() < attackEnd and excludeAttackActive do
+                            task.wait(0.1)
+                            for _, player in ipairs(Players:GetPlayers()) do
+                                if player ~= LocalPlayer and not excludeList[player.Name] and excludeAttackActive then
+                                    if player.Character then
+                                        local head = player.Character:FindFirstChild("Head")
+                                        if head then
+                                            local rocketName =
+                                                generateRandomString(12) .. "Rocket" .. math.random(1, 100)
+                                            pcall(function()
+                                                FireRocket:InvokeServer(Vector3.new(), weapon, weapon, attackPos)
+                                                RocketHit:FireServer(attackPos, Vector3.new(), weapon, weapon, head,
+                                                    nil, rocketName)
+                                            end)
+                                        end
+                                    end
+                                end
+                            end
+                        end
+
+                        local cooldownEnd = os.clock() + 3
+                        while os.clock() < cooldownEnd and excludeAttackActive do
+                            task.wait(0.1)
+                        end
+                    end
+                end
+            end
+        end
+    end
+})
+local Tab = Window:CreateTab("其他功能")
+
+local Section = Tab:CreateSection("获取RPG")
+
+local Button = Tab:CreateButton({
+    Name = "获取RPG",
+    Callback = function()
+
+        local Players = game:GetService("Players")
+        local localPlayer = Players.LocalPlayer
+        local TycoonsFolder = workspace.Tycoon.Tycoons
+
+        local savedPosition
+
+        local function findNearestTeleportPosition()
+            local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+            local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+            local playerPosition = humanoidRootPart.Position
+
+            local closestDistance = math.huge
+            local closestCFrame = nil
+
+            for _, tycoonModel in ipairs(TycoonsFolder:GetChildren()) do
+                if tycoonModel:IsA("Model") then
+                    local purchasedObjects = tycoonModel:FindFirstChild("PurchasedObjects")
+                    if purchasedObjects then
+                        local rpgGiver = purchasedObjects:FindFirstChild("RPG Giver")
+                        if rpgGiver then
+                            local prompt = rpgGiver:FindFirstChild("Prompt")
+                            if prompt and prompt:IsA("BasePart") then
+                                local distance = (playerPosition - prompt.Position).Magnitude
+                                if distance < closestDistance then
+                                    closestDistance = distance
+                                    closestCFrame = prompt.CFrame
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+
+            return closestCFrame
+        end
+
+        local function teleportPlayer()
+
+            local character = localPlayer.Character
+            if not character then
+                return
+            end
+            local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+            if humanoidRootPart then
+                savedPosition = humanoidRootPart.CFrame
+            end
+
+            local targetCFrame = findNearestTeleportPosition()
+            if targetCFrame then
+                humanoidRootPart.CFrame = targetCFrame
+
+                spawn(function()
+                    while wait(0.5) do
+
+                        if not character.Parent then
+                            break
+                        end
+
+                        local backpack = localPlayer:FindFirstChild("Backpack")
+                        if backpack and backpack:FindFirstChild("RPG") then
+
+                            humanoidRootPart.CFrame = savedPosition
+                            break
+                        end
+                    end
+                end)
+            else
+                Rayfield:Notify({
+                    Title = "ERROR",
+                    Content = "未能找到附近的RPG",
+                    Duration = 4,
+                    Image = 111120935859410
+                })
+            end
+        end
+
+        teleportPlayer()
+    end
+
+})
+
+local Section = Tab:CreateSection("偷箱子")
+
+local cachedOilCollectorCFrame = nil
+
+local Button = Tab:CreateButton({
+    Name = "获取箱子",
+    Callback = function()
+        local player = game:GetService("Players").LocalPlayer
+
+        if player.Team then
+            local teamName = player.Team.Name
+            local essentials = game:GetService("Workspace"):WaitForChild("Tycoon"):WaitForChild("Tycoons"):WaitForChild(
+                teamName):WaitForChild("Essentials")
+
+            local oilCollector = essentials:FindFirstChild("Oil Collector")
+            if oilCollector then
+                local promptPart = oilCollector:FindFirstChild("CratePromptPart")
+                if promptPart and promptPart:IsA("BasePart") then
+                    cachedOilCollectorCFrame = promptPart.CFrame
+                end
+            end
+        end
+
+        local function getCrateLocations()
+            local locations = {}
+            local workspacePath = game:GetService("Workspace"):WaitForChild("Game Systems"):WaitForChild(
+                "Crate Workspace")
+
+            local oilCollectorPositions = {}
+            if cachedOilCollectorCFrame then
+                table.insert(oilCollectorPositions, cachedOilCollectorCFrame.Position)
+            end
+
+            for _, obj in ipairs(workspacePath:GetChildren()) do
+                if obj.Name == "Tank Crate" and obj:IsA("BasePart") then
+                    local validCrate = true
+
+                    for _, oilPos in ipairs(oilCollectorPositions) do
+                        if (obj.Position - oilPos).Magnitude < 100 then
+                            validCrate = false
+                            break
+                        end
+                    end
+
+                    if validCrate then
+                        table.insert(locations, obj.CFrame)
+                    end
+                end
+            end
+            return locations
+        end
+
+        local function getRandomEnemyBaseCFrame()
+            if not player.Team then
+                return
+            end
+            local teamName = player.Team.Name
+            local bases = {}
+
+            for _, tycoon in ipairs(game:GetService("Workspace").Tycoon.Tycoons:GetChildren()) do
+                if tycoon.Name ~= teamName and tycoon:FindFirstChild("Essentials") then
+                    local spawn = tycoon.Essentials:FindFirstChild("Spawn")
+                    if spawn and spawn:IsA("BasePart") then
+                        table.insert(bases, spawn.CFrame)
+                    end
+                end
+            end
+
+            return #bases > 0 and bases[math.random(#bases)] or nil
+        end
+
+        local character = player.Character or player.CharacterAdded:Wait()
+        local humanoid = character:WaitForChild("Humanoid")
+        local rootPart = character:WaitForChild("HumanoidRootPart")
+
+        if not (humanoid and humanoid.Health > 0 and rootPart) then
+            return
+        end
+
+        local crates = getCrateLocations()
+
+        if #crates == 0 then
+            local enemyBase = getRandomEnemyBaseCFrame()
+            if enemyBase then
+                rootPart.CFrame = enemyBase
+                wait(1)
+                crates = getCrateLocations()
+            end
+        end
+
+        if #crates == 0 then
+            return
+        end
+
+        rootPart.CFrame = crates[math.random(#crates)]
+    end
+})
+
+local Button = Tab:CreateButton({
+    Name = "出售箱子",
+    Callback = function()
+        local player = game:GetService("Players").LocalPlayer
+
+        local function getSellLocation()
+            if not player.Team then
+                return
+            end
+            local teamName = player.Team.Name
+            local essentials = game:GetService("Workspace"):WaitForChild("Tycoon"):WaitForChild("Tycoons"):WaitForChild(
+                teamName):WaitForChild("Essentials")
+
+            local baseSpawn = essentials:WaitForChild("Spawn")
+
+            local oilCollector = essentials:FindFirstChild("Oil Collector")
+            if oilCollector then
+                local promptPart = oilCollector:FindFirstChild("CratePromptPart")
+                if promptPart and promptPart:IsA("BasePart") then
+                    return promptPart.CFrame
+                end
+            end
+
+            if cachedOilCollectorCFrame then
+                return cachedOilCollectorCFrame
+            end
+
+            return baseSpawn.CFrame
+        end
+
+        local character = player.Character or player.CharacterAdded:Wait()
+        local humanoid = character:WaitForChild("Humanoid")
+        local rootPart = character:WaitForChild("HumanoidRootPart")
+
+        if not (humanoid and humanoid.Health > 0 and rootPart) then
+            return
+        end
+
+        local teamName = player.Team and player.Team.Name
+        if teamName then
+            local baseSpawn = game:GetService("Workspace").Tycoon.Tycoons[teamName].Essentials.Spawn
+            rootPart.CFrame = baseSpawn.CFrame
+            wait(0.5)
+        end
+
+        local targetCFrame = getSellLocation()
+        if not targetCFrame then
+            return
+        end
+
+        rootPart.CFrame = targetCFrame
+    end
+})
+
+local Section = Tab:CreateSection("偷箱子test")
+local cachedOilCollectorCFrame = nil
+local currentBaseIndex = 1
+
+-- 加载基地坐标
+local baseLocations = {
+    Alpha = CFrame.new(-1146.69946, 58.9945717, -4790.21436, 0.965929627, 0, 0.258804798, 0, 1, 0, -0.258804798, 0,
+        0.965929627),
+    Bravo = CFrame.new(-169.982513, 58.9945717, -4918.90283, 1, 0, 0, 0, 1, 0, 0, 0, 1),
+    Charlie = CFrame.new(847.080017, 58.9949989, -4739.56885, 0.965929627, -0, -0.258804798, 0, 1, -0, 0.258804798, 0,
+        0.965929627),
+    Delta = CFrame.new(2094.15405, 58.9949989, -3983.7439, 0.707134247, -0, -0.707079291, 0, 1, -0, 0.707079291, 0,
+        0.707134247),
+    Echo = CFrame.new(2791.61499, 58.9949989, -3030.81299, 0.422592998, -0, -0.906319618, 0, 1, -0, 0.906319618, 0,
+        0.422592998),
+    Foxtrot = CFrame.new(3095.17603, 58.9949989, -1788.42102, 0, 0, -1, 0, 1, 0, 1, 0, 0),
+    Golf = CFrame.new(3426.27588, 58.9949989, -562.419983, 0, 0, -1, 0, 1, 0, 1, 0, 0),
+    Hotel = CFrame.new(3339.84106, 58.9949989, 586.625977, -0.173624277, 0, -0.984811902, 0, 1, 0, 0.984811902, 0,
+        -0.173624277),
+    Juliet = CFrame.new(3005.00488, 58.9949989, 1803.89294, -0.258864403, 0, -0.965913713, 0, 1, 0, 0.965913713, 0,
+        -0.258864403),
+    Kilo = CFrame.new(2619.34302, 58.9949989, 2925.82495, -0.499959469, 0, -0.866048813, 0, 1, 0, 0.866048813, 0,
+        -0.499959469),
+    Lima = CFrame.new(1038.705994, 58.9949989, 3418.80396, -0.342042685, 0, -0.939684391, 0, 1, 0, 0.939684391, 0,
+        -0.342042685),
+    Omega = CFrame.new(-269.369995, 58.9949989, 3932.35303, -1, 0, 0, 0, 1, 0, 0, 0, -1),
+    Romeo = CFrame.new(-1429.495, 58.9949989, 3721.99902, -0.906296611, 0, 0.422642082, 0, 1, 0, -0.422642082, 0,
+        -0.906296611),
+    Sierra = CFrame.new(-2477.83594, 58.9949989, 2549.146, -0.707134247, 0, 0.707079291, 0, 1, 0, -0.707079291, 0,
+        -0.707134247),
+    Tango = CFrame.new(-2968.21509, 58.9949989, 1502.59998, -0.573599219, 0, 0.81913656, 0, 1, 0, -0.81913656, 0,
+        -0.573599219),
+    Victor = CFrame.new(-3536.59912, 58.9949989, 633.554993, -0.499959469, 0, 0.866048813, 0, 1, 0, -0.866048813, 0,
+        -0.499959469),
+    Yankee = CFrame.new(-3907.39551, 59.1445694, -286.527435, -0.258864403, 0, 0.965913713, 0, 1, 0, -0.965913713, 0,
+        -0.258864403),
+    Zulu = CFrame.new(-3999.12012, 59.1445694, -1334.10547, 0, 0, 1, 0, 1, -0, -1, 0, 0)
+}
+
+local Keybind = Tab:CreateKeybind({
+    Name = "获取箱子",
+    CurrentKeybind = "Z",
+    HoldToInteract = false,
+    Flag = "Keybind_Crates",
+    Callback = function()
+        local player = game:GetService("Players").LocalPlayer
+        if player.Team then
+            local teamName = player.Team.Name
+            local essentials = game:GetService("Workspace"):WaitForChild("Tycoon"):WaitForChild("Tycoons"):WaitForChild(
+                teamName):WaitForChild("Essentials")
+
+            local oilCollector = essentials:FindFirstChild("Oil Collector")
+            if oilCollector then
+                local promptPart = oilCollector:FindFirstChild("CratePromptPart")
+                if promptPart and promptPart:IsA("BasePart") then
+                    cachedOilCollectorCFrame = promptPart.CFrame
+                end
+            end
+        end
+
+        local function getCrateLocations()
+            local locations = {}
+            local workspacePath = game:GetService("Workspace"):WaitForChild("Game Systems"):WaitForChild(
+                "Crate Workspace")
+            local oilCollectorPositions = {}
+            if cachedOilCollectorCFrame then
+                table.insert(oilCollectorPositions, cachedOilCollectorCFrame.Position)
+            end
+
+            for _, obj in ipairs(workspacePath:GetChildren()) do
+                if obj.Name == "Tank Crate" and obj:IsA("BasePart") then
+                    local validCrate = true
+                    for _, oilPos in ipairs(oilCollectorPositions) do
+                        if (obj.Position - oilPos).Magnitude < 100 then
+                            validCrate = false
+                            break
+                        end
+                    end
+
+                    if validCrate then
+                        table.insert(locations, obj.CFrame)
+                    end
+                end
+            end
+            return locations
+        end
+
+        local function getNextEnemyBaseCFrame()
+            if not player.Team then
+                return
+            end
+            local teamName = player.Team.Name
+            local bases = {}
+
+            for _, tycoon in ipairs(game:GetService("Workspace").Tycoon.Tycoons:GetChildren()) do
+                if tycoon.Name ~= teamName and tycoon:FindFirstChild("Essentials") then
+                    local spawn = tycoon.Essentials:FindFirstChild("Spawn")
+                    if spawn and spawn:IsA("BasePart") then
+                        table.insert(bases, spawn)
+                    end
+                end
+            end
+
+            if #bases == 0 then
+                return nil
+            end
+            local targetSpawn = bases[currentBaseIndex]
+            currentBaseIndex = (currentBaseIndex % #bases) + 1
+            return CFrame.new(targetSpawn.Position.X, targetSpawn.Position.Y - 100, targetSpawn.Position.Z)
+        end
+
+        local character = player.Character or player.CharacterAdded:Wait()
+        local humanoid = character:WaitForChild("Humanoid")
+        local rootPart = character:WaitForChild("HumanoidRootPart")
+
+        if not (humanoid and humanoid.Health > 0 and rootPart) then
+            return
+        end
+
+        local crates = getCrateLocations()
+
+        if #crates == 0 then
+            local enemyBase = getNextEnemyBaseCFrame()
+            if enemyBase then
+                rootPart.CFrame = enemyBase
+                wait(1)
+                crates = getCrateLocations()
+            end
+        end
+
+        if #crates == 0 then
+            return
+        end
+
+        rootPart.CFrame = crates[math.random(#crates)]
+    end
+})
+
+local Keybind = Tab:CreateKeybind({
+    Name = "出售箱子",
+    CurrentKeybind = "C",
+    HoldToInteract = false,
+    Flag = "Keybind_Sell",
+    Callback = function()
+        local player = game:GetService("Players").LocalPlayer
+
+        local teamName = player.Team.Name
+
+        local targetLocation = baseLocations[teamName]
+        if not targetLocation then
+            return
+        end
+
+    end
+})
+
+local Section = Tab:CreateSection("自动升级基地")
+
+local isRunning = false
+
+local Toggle = Tab:CreateToggle({
+    Name = "自动升级",
+    CurrentValue = false,
+    Callback = function(Value)
+        isRunning = Value
+
+        local excludeColors = {Color3.fromRGB(0, 165, 180), Color3.fromRGB(255, 119, 0), Color3.fromRGB(98, 36, 209),
+                               Color3.fromRGB(215, 45, 109), Color3.fromRGB(98, 37, 209), Color3.fromRGB(255, 255, 0)}
+
+        local function getNeonPositions()
+            local tycoons = workspace:WaitForChild("Tycoon"):WaitForChild("Tycoons")
+            local playerTeam = game:GetService("Players").LocalPlayer.Team.Name
+            return tycoons:WaitForChild(playerTeam):WaitForChild("UnpurchasedButtons"):GetChildren()
+        end
+
+        local function teleportSequence()
+            while isRunning do
+                local currentPositions = getNeonPositions()
+
+                for _, button in ipairs(currentPositions) do
+                    if not isRunning then
+                        break
+                    end
+
+                    if not button:FindFirstChild("Hologram") then
+                        local neon = button:FindFirstChild("Neon")
+                        if neon and neon:IsA("BasePart") then
+                            local shouldExclude = false
+                            for _, color in ipairs(excludeColors) do
+                                if neon.Color == color then
+                                    shouldExclude = true
+                                    break
+                                end
+                            end
+
+                            if not shouldExclude then
+                                for i = 1, 2 do
+                                    if not isRunning then
+                                        break
+                                    end
+                                    if game.Players.LocalPlayer.Character and
+                                        game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = neon.CFrame
+                                    end
+                                    task.wait(0.3)
+                                end
+                            end
+                        end
+                    end
+                end
+                task.wait(0.1)
+            end
+        end
+
+        if Value then
+            coroutine.wrap(teleportSequence)()
+        end
+    end
+})
+
+local Section = Tab:CreateSection("全图RPG增强版")
+
+do
+    local loopActive = false
+    local numRockets = 1
+
+    local Toggle = Tab:CreateToggle({
+        Name = "全图RPG增强版",
+        CurrentValue = false,
+        Flag = "Toggle3",
+        Callback = function(Value)
+            loopActive = Value
+
+            if Value then
+                coroutine.wrap(function()
+                    local Players = game:GetService("Players")
+                    local LocalPlayer = Players.LocalPlayer
+                    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+                    local RocketSystem = ReplicatedStorage:WaitForChild("RocketSystem")
+                    local FireRocket = RocketSystem.Events.FireRocket
+                    local RocketHit = RocketSystem.Events.RocketHit
+
+                    while loopActive do
+                        local character = LocalPlayer.Character
+                        if not character then
+                            return
+                        end
+                        local rootPart = character:FindFirstChild("HumanoidRootPart")
+                        if not rootPart then
+                            return
+                        end
+                        local attackPosition = rootPart.Position + Vector3.new(0, 1000, 0)
+
+                        local allPlayers = Players:GetPlayers()
+                        local targets = {}
+
+                        for _, player in ipairs(allPlayers) do
+                            if player ~= LocalPlayer and player.Character then
+                                table.insert(targets, player.Character:FindFirstChild("Head"))
+                            end
+                        end
+
+                        local weapon = LocalPlayer.Character:FindFirstChild("Javelin")
+                        if weapon then
+                            local fireTasks = {}
+
+                            for _, target in ipairs(targets) do
+                                if target then
+                                    for _ = 1, numRockets do
+                                        table.insert(fireTasks, function()
+                                            local direction =
+                                                Vector3.new(math.random(), math.random(), math.random()).Unit
+                                            FireRocket:InvokeServer(direction, weapon, weapon, attackPosition)
+                                            RocketHit:FireServer(attackPosition, direction, weapon, weapon, target -- 这里改回了玩家对象
+                                            )
+                                        end)
+                                    end
+                                end
+                            end
+
+                            for _, task in ipairs(fireTasks) do
+                                coroutine.wrap(task)()
+                            end
+                        end
+                        task.wait(0.000001)
+                    end
+                end)()
+            end
+        end
+    })
+
+    local Input = Tab:CreateInput({
+        Name = "发射RPG数量",
+        CurrentValue = "",
+        PlaceholderText = "发射数量",
+        RemoveTextAfterFocusLost = false,
+        Flag = "Input1",
+        Callback = function(Text)
+            numRockets = tonumber(Text) or 1
+        end
+    })
+end
+local Tab = Window:CreateTab("RPG功能")
+
+local Section = Tab:CreateSection("全图攻击(降频版)")
+
+do
+    local loopActive = false
+
+    local Toggle = Tab:CreateToggle({
+        Name = "全图",
+        CurrentValue = false,
+        Flag = "Toggle1",
+        Callback = function(Value)
+            loopActive = Value
+
+            if Value then
+                coroutine.wrap(function()
+
+                    local Players = game:GetService("Players")
+                    local LocalPlayer = Players.LocalPlayer
+                    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+                    local RocketSystem = ReplicatedStorage:WaitForChild("RocketSystem")
+                    local FireRocket = RocketSystem.Events.FireRocket
+                    local RocketHit = RocketSystem.Events.RocketHit
+
+                    local attackPhase = "attack"
+                    local phaseStartTime = os.clock()
+
+                    local function attackProcedure()
+
+                        local character = LocalPlayer.Character
+                        if not character then
+                            return
+                        end
+                        local rootPart = character:FindFirstChild("HumanoidRootPart")
+                        if not rootPart then
+                            return
+                        end
+
+                        local attackPosition = rootPart.Position + Vector3.new(0, 1000, 0)
+
+                        local allPlayers = Players:GetPlayers()
+                        local targets = {}
+
+                        for _, player in ipairs(allPlayers) do
+                            if player ~= LocalPlayer and player.Character then
+                                table.insert(targets, player.Character:FindFirstChild("HumanoidRootPart"))
+                            end
+                        end
+
+                        local weapon = LocalPlayer.Character:FindFirstChild("Javelin")
+                        if weapon then
+                            for _, target in ipairs(targets) do
+                                if target then
+                                    FireRocket:InvokeServer(Vector3.new(), weapon, weapon, attackPosition)
+
+                                    RocketHit:FireServer(attackPosition, Vector3.new(), weapon, weapon, target, nil,
+                                        "asdfghvcqawRocket4")
+                                    task.wait(0.1)
+                                end
+                            end
+                        end
+                    end
+
+                    while loopActive do
+                        local currentTime = os.clock()
+                        local elapsed = currentTime - phaseStartTime
+
+                        if attackPhase == "attack" and elapsed >= 3 then
+                            attackPhase = "pause"
+                            phaseStartTime = os.clock()
+                        elseif attackPhase == "pause" and elapsed >= 2 then
+                            attackPhase = "attack"
+                            phaseStartTime = os.clock()
+                        end
+
+                        if attackPhase == "attack" then
+                            attackProcedure()
+                        end
+
+                        task.wait(0.1)
+                    end
+                end)()
+            end
+        end
+    })
+end
+
+local Tab = Window:CreateTab("基地传送")
+
+local Section = Tab:CreateSection("当前玩家基地: " .. game.Players.LocalPlayer.Team.Name)
+
+local Button = Tab:CreateButton({
+    Name = "Alpha",
+    Callback = function()
+        local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+        local location = CFrame.new(-1196.69946, 58.9945717, -4790.21436, 0.965929627, 0, 0.258804798, 0, 1, 0,
+            -0.258804798, 0, 0.965929627)
+        local Humanoid = game.Players.LocalPlayer.Character.Humanoid
+        Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        wait(0.2)
+        pl.CFrame = location
+    end
+})
+
+local Button = Tab:CreateButton({
+    Name = "Bravo",
+    Callback = function()
+        local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+        local location = CFrame.new(-219.982513, 58.9945717, -4918.90283, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+        local Humanoid = game.Players.LocalPlayer.Character.Humanoid
+        Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        wait(0.2)
+        pl.CFrame = location
+    end
+})
+local Button = Tab:CreateButton({
+    Name = "Charlie",
+    Callback = function()
+        local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+        local location = CFrame.new(797.080017, 58.9949989, -4739.56885, 0.965929627, -0, -0.258804798, 0, 1, -0,
+            0.258804798, 0, 0.965929627)
+        local Humanoid = game.Players.LocalPlayer.Character.Humanoid
+        Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        wait(0.2)
+        pl.CFrame = location
+    end
+})
+
+local Button = Tab:CreateButton({
+    Name = "Delta",
+    Callback = function()
+        local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+        local location = CFrame.new(2044.15405, 58.9949989, -3983.7439, 0.707134247, -0, -0.707079291, 0, 1, -0,
+            0.707079291, 0, 0.707134247)
+        local Humanoid = game.Players.LocalPlayer.Character.Humanoid
+        Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        wait(0.2)
+        pl.CFrame = location
+    end
+})
+
+local Button = Tab:CreateButton({
+    Name = "Echo",
+    Callback = function()
+        local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+        local location = CFrame.new(2741.61499, 58.9949989, -3030.81299, 0.422592998, -0, -0.906319618, 0, 1, -0,
+            0.906319618, 0, 0.422592998)
+        local Humanoid = game.Players.LocalPlayer.Character.Humanoid
+        Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        wait(0.2)
+        pl.CFrame = location
+    end
+})
+
+local Button = Tab:CreateButton({
+    Name = "Foxtrot",
+    Callback = function()
+        local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+        local location = CFrame.new(3045.17603, 58.9949989, -1788.42102, 0, 0, -1, 0, 1, 0, 1, 0, 0)
+        local Humanoid = game.Players.LocalPlayer.Character.Humanoid
+        Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        wait(0.2)
+        pl.CFrame = location
+    end
+})
+
+local Button = Tab:CreateButton({
+    Name = "Golf",
+    Callback = function()
+        local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+        local location = CFrame.new(3376.27588, 58.9949989, -562.419983, 0, 0, -1, 0, 1, 0, 1, 0, 0)
+        local Humanoid = game.Players.LocalPlayer.Character.Humanoid
+        Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        wait(0.2)
+        pl.CFrame = location
+    end
+})
+
+local Button = Tab:CreateButton({
+    Name = "Hotel",
+    Callback = function()
+        local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+        local location = CFrame.new(3289.84106, 58.9949989, 586.625977, -0.173624277, 0, -0.984811902, 0, 1, 0,
+            0.984811902, 0, -0.173624277)
+        local Humanoid = game.Players.LocalPlayer.Character.Humanoid
+        Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        wait(0.2)
+        pl.CFrame = location
+    end
+})
+
+local Button = Tab:CreateButton({
+    Name = "Juliet",
+    Callback = function()
+        local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+        local location = CFrame.new(2955.00488, 58.9949989, 1803.89294, -0.258864403, 0, -0.965913713, 0, 1, 0,
+            0.965913713, 0, -0.258864403)
+        local Humanoid = game.Players.LocalPlayer.Character.Humanoid
+        Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        wait(0.2)
+        pl.CFrame = location
+    end
+})
+
+local Button = Tab:CreateButton({
+    Name = "Kilo",
+    Callback = function()
+        local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+        local location = CFrame.new(2569.34302, 58.9949989, 2925.82495, -0.499959469, 0, -0.866048813, 0, 1, 0,
+            0.866048813, 0, -0.499959469)
+        local Humanoid = game.Players.LocalPlayer.Character.Humanoid
+        Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        wait(0.2)
+        pl.CFrame = location
+    end
+})
+
+local Button = Tab:CreateButton({
+    Name = "Lima",
+    Callback = function()
+        local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+        local location = CFrame.new(988.705994, 58.9949989, 3418.80396, -0.342042685, 0, -0.939684391, 0, 1, 0,
+            0.939684391, 0, -0.342042685)
+        local Humanoid = game.Players.LocalPlayer.Character.Humanoid
+        Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        wait(0.2)
+        pl.CFrame = location
+    end
+})
+
+local Button = Tab:CreateButton({
+    Name = "Omega",
+    Callback = function()
+        local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+        local location = CFrame.new(-319.369995, 58.9949989, 3932.35303, -1, 0, 0, 0, 1, 0, 0, 0, -1)
+        local Humanoid = game.Players.LocalPlayer.Character.Humanoid
+        Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        wait(0.2)
+        pl.CFrame = location
+    end
+})
+
+local Button = Tab:CreateButton({
+    Name = "Romeo",
+    Callback = function()
+        local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+        local location = CFrame.new(-1479.495, 58.9949989, 3721.99902, -0.906296611, 0, 0.422642082, 0, 1, 0,
+            -0.422642082, 0, -0.906296611)
+        local Humanoid = game.Players.LocalPlayer.Character.Humanoid
+        Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        wait(0.2)
+        pl.CFrame = location
+    end
+})
+
+local Button = Tab:CreateButton({
+    Name = "Sierra",
+    Callback = function()
+        local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+        local location = CFrame.new(-2527.83594, 58.9949989, 2549.146, -0.707134247, 0, 0.707079291, 0, 1, 0,
+            -0.707079291, 0, -0.707134247)
+        local Humanoid = game.Players.LocalPlayer.Character.Humanoid
+        Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        wait(0.2)
+        pl.CFrame = location
+    end
+})
+
+local Button = Tab:CreateButton({
+    Name = "Tango",
+    Callback = function()
+        local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+        local location = CFrame.new(-3018.21509, 58.9949989, 1502.59998, -0.573599219, 0, 0.81913656, 0, 1, 0,
+            -0.81913656, 0, -0.573599219)
+        local Humanoid = game.Players.LocalPlayer.Character.Humanoid
+        Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        wait(0.2)
+        pl.CFrame = location
+    end
+})
+
+local Button = Tab:CreateButton({
+    Name = "Victor",
+    Callback = function()
+        local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+        local location = CFrame.new(-3586.59912, 58.9949989, 633.554993, -0.499959469, 0, 0.866048813, 0, 1, 0,
+            -0.866048813, 0, -0.499959469)
+        local Humanoid = game.Players.LocalPlayer.Character.Humanoid
+        Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        wait(0.2)
+        pl.CFrame = location
+    end
+})
+
+local Button = Tab:CreateButton({
+    Name = "Yankee",
+    Callback = function()
+        local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+        local location = CFrame.new(-3957.39551, 59.1445694, -286.527435, -0.258864403, 0, 0.965913713, 0, 1, 0,
+            -0.965913713, 0, -0.258864403)
+        local Humanoid = game.Players.LocalPlayer.Character.Humanoid
+        Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        wait(0.2)
+        pl.CFrame = location
+    end
+})
+
+local Button = Tab:CreateButton({
+    Name = "Zulu",
+    Callback = function()
+        local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+        local location = CFrame.new(-4049.12012, 59.1445694, -1334.10547, 0, 0, 1, 0, 1, -0, -1, 0, 0)
+        local Humanoid = game.Players.LocalPlayer.Character.Humanoid
+        Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        wait(0.2)
+        pl.CFrame = location
+    end
+})
+
+local Tab = Window:CreateTab("测试功能")
+local Section = Tab:CreateSection("直升机导弹系统")
+
+do
+    local loopActive = false
+
+    local Toggle = Tab:CreateToggle({
+        Name = "KA-52全图攻击beta1",
+        CurrentValue = false,
+        Flag = "Toggle1",
+        Callback = function(Value)
+            loopActive = Value
+
+            if Value then
+                coroutine.wrap(function()
+                    local Players = game:GetService("Players")
+                    local LocalPlayer = Players.LocalPlayer
+                    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+                    local RocketSystem = ReplicatedStorage:WaitForChild("RocketSystem")
+                    local FireRocket = RocketSystem.Events.FireRocket
+                    local RocketHit = RocketSystem.Events.RocketHit
+
+                    local HeliWorkspace = workspace:WaitForChild("Game Systems"):WaitForChild("Helicopter Workspace")
+                    local KA52 = HeliWorkspace:WaitForChild("KA-52 Alligator")
+                    local KA52Weapons = KA52:WaitForChild("Misc"):WaitForChild("Turrets"):WaitForChild("KA-52 Weapons")
+                    local RocketLaunchers = KA52Weapons:WaitForChild("Rocket Launchers")
+                    local RocketL = RocketLaunchers:WaitForChild("RocketsL")
+                    local RocketModel = RocketL:WaitForChild("Rocket")
+
+                    local function attackProcedure()
+                        if not loopActive then
+                            return
+                        end
+
+                        local allPlayers = Players:GetPlayers()
+                        for _, player in ipairs(allPlayers) do
+                            if player ~= LocalPlayer and player.Character then
+                                local targetPart = player.Character:FindFirstChild("HumanoidRootPart")
+                                if targetPart then
+
+                                    FireRocket:InvokeServer(Vector3.new(), RocketLaunchers, KA52, targetPart.Position,
+                                        RocketModel)
+
+                                    RocketHit:FireServer(targetPart.Position, Vector3.new(0, 1, 0), KA52,
+                                        RocketLaunchers, targetPart, nil, "asdfghvcqawRocket4")
+                                end
+                            end
+                        end
+                    end
+
+                    while loopActive do
+                        attackProcedure()
+                        task.wait(0.1)
+                    end
+                end)()
+            end
+        end
+    })
+end
+
+local Section = Tab:CreateSection("VCA车辆导弹系统")
+
+do
+    local loopActive = false
+
+    local Toggle = Tab:CreateToggle({
+        Name = "自动VCA索敌beta2",
+        CurrentValue = false,
+        Flag = "Toggle1",
+        Callback = function(Value)
+            loopActive = Value
+
+            if Value then
+                coroutine.wrap(function()
+                    local Players = game:GetService("Players")
+                    local LocalPlayer = Players.LocalPlayer
+                    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+                    local RocketSystem = ReplicatedStorage:WaitForChild("RocketSystem")
+                    local FireRocket = RocketSystem.Events.FireRocket
+                    local RocketHit = RocketSystem.Events.RocketHit
+                    local UpdateRocket = RocketSystem.Events.UpdateRocket
+                    local VehicleWorkspace = workspace:WaitForChild("Game Systems"):WaitForChild("Vehicle Workspace")
+                    local Mephisto = VehicleWorkspace:WaitForChild("VCAC Mephisto")
+                    local VCACWeapons = Mephisto:WaitForChild("Misc"):WaitForChild("Turrets"):WaitForChild(
+                        "VCAC Weapons")
+                    local RocketLauncher = VCACWeapons:WaitForChild("Rocket Launcher")
+                    local Rockets = RocketLauncher:WaitForChild("Rockets")
+                    local RocketModel = Rockets:WaitForChild("Rocket2")
+
+                    local function attackTarget(targetPart)
+                        if not loopActive or not targetPart then
+                            return
+                        end
+
+                        local startPos = LocalPlayer.Character.HumanoidRootPart.Position + Vector3.new(0, 50, 0)
+
+                        local toTarget = targetPart.Position - startPos
+                        local distance = toTarget.Magnitude
+                        local direction = toTarget.Unit
+
+                        local rocketID = "adfasd4242Rocket_" .. tick()
+
+                        local rocketArgs = {
+                            [rocketID] = {
+                                Speed = 299.5566101074219,
+                                Direction = direction,
+                                Position = startPos
+                            }
+                        }
+
+                        FireRocket:InvokeServer(Vector3.new(-0.09739979356527328, 0.20414167642593384,
+                            -0.9740839004516602), RocketLauncher, Mephisto, targetPart.Position, RocketModel)
+
+                        local currentPos = startPos
+                        local stepDistance = 50
+                        local steps = math.floor(distance / stepDistance)
+                        for i = 4, steps do
+                            if not loopActive then
+                                break
+                            end
+                            currentPos = currentPos + (direction * stepDistance)
+                            rocketArgs[rocketID].Position = currentPos
+                            UpdateRocket:FireServer({rocketArgs})
+                            task.wait(0.01)
+                        end
+                        if loopActive then
+                            RocketHit:FireServer(targetPart.Position, Vector3.new(-0.2131739854812622,
+                                0.9658856391906738, 0.14704300463199615), Mephisto, RocketLauncher, workspace.Terrain,
+                                CFrame.new(-451.21551513671875, 14.172119140625, 3110.775146484375, 0.9973281621932983,
+                                    -0.0072139548137784, 0.07269333302974701, 0, 0.9951118230819702,
+                                    0.09875311702489853, -0.07305040210485458, -0.09848926216363907, 0.9924532175064087),
+                                "adfasd4242Rocket3")
+                        end
+                    end
+
+                    local function attackProcedure()
+                        if not loopActive then
+                            return
+                        end
+
+                        local camera = workspace.CurrentCamera
+                        if not camera then
+                            return
+                        end
+
+                        local cameraCFrame = camera.CFrame
+                        local cameraPosition = cameraCFrame.Position
+                        local cameraLookVector = cameraCFrame.LookVector
+
+                        local allPlayers = Players:GetPlayers()
+                        for _, player in ipairs(allPlayers) do
+                            if player ~= LocalPlayer and player.Character then
+                                local targetPart = player.Character:FindFirstChild("HumanoidRootPart")
+                                if targetPart then
+                                    local targetPosition = targetPart.Position
+                                    local toTarget = targetPosition - cameraPosition
+                                    local distance = toTarget.Magnitude
+
+                                    if cameraLookVector:Dot(toTarget.Unit) > 0 then
+                                        attackTarget(targetPart)
+                                    end
+                                end
+                            end
+                        end
+                    end
+
+                    while loopActive do
+                        attackProcedure()
+                        task.wait(0.1)
+                    end
+                end)()
+            end
+        end
+    })
+end
+
+local Section = Tab:CreateSection("lost车辆导弹系统")
+
+do
+    local loopActive = false
+
+    local Toggle = Tab:CreateToggle({
+        Name = "自动lost索敌beta2",
+        CurrentValue = false,
+        Flag = "Toggle1",
+        Callback = function(Value)
+            loopActive = Value
+
+            if Value then
+                coroutine.wrap(function()
+                    local Players = game:GetService("Players")
+                    local LocalPlayer = Players.LocalPlayer
+                    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+                    local RocketSystem = ReplicatedStorage:WaitForChild("RocketSystem")
+                    local FireRocket = RocketSystem.Events.FireRocket
+                    local RocketHit = RocketSystem.Events.RocketHit
+                    local UpdateRocket = RocketSystem.Events.UpdateRocket
+
+                    local TankWorkspace = workspace:WaitForChild("Game Systems"):WaitForChild("Tank Workspace")
+                    local LOSAT = TankWorkspace:WaitForChild("LOSAT")
+                    local LOSATWeapons = LOSAT:WaitForChild("Misc"):WaitForChild("Turrets")
+                        :WaitForChild("LOSAT Weapons")
+                    local RocketLaunchers = LOSATWeapons:WaitForChild("Rocket Launchers")
+                    local RocketsL = RocketLaunchers:WaitForChild("RocketsL")
+                    local Rocket = RocketsL:WaitForChild("Rocket")
+
+                    local function attackTarget(targetPart)
+                        if not loopActive or not targetPart then
+                            return
+                        end
+                        local startPos = LocalPlayer.Character.HumanoidRootPart.Position + Vector3.new(0, 50, 0)
+                        local toTarget = targetPart.Position - startPos
+                        local distance = toTarget.Magnitude
+                        local direction = toTarget.Unit
+
+                        local rocketID = "Xyyyy780Rocket_" .. tick()
+
+                        FireRocket:InvokeServer(Vector3.new(0, 0, 0), RocketLaunchers, LOSAT, targetPart.Position,
+                            Rocket)
+
+                        local currentPos = startPos
+                        local stepDistance = 50
+                        local steps = math.floor(distance / stepDistance)
+
+                        local rocketArgs = {
+                            [rocketID] = {
+                                Speed = 399.9264831542969,
+                                Direction = direction,
+                                Position = currentPos
+                            }
+                        }
+
+                        for i = 4, steps do
+                            if not loopActive then
+                                break
+                            end
+                            currentPos = currentPos + (direction * stepDistance)
+                            rocketArgs[rocketID].Position = currentPos
+                            UpdateRocket:FireServer(rocketArgs)
+                            task.wait(0.01)
+                        end
+
+                        if loopActive then
+
+                            RocketHit:FireServer(targetPart.Position,
+                                Vector3.new(0.707079291343689, 0, -0.7071342468261719), LOSAT, RocketLaunchers,
+                                workspace:WaitForChild("Tycoon"):WaitForChild("Tycoons"):WaitForChild("Delta")
+                                    :WaitForChild("PurchasedObjects"):WaitForChild("Tank Building Upper Walls")
+                                    :WaitForChild("Collision"),
+                                CFrame.new(2109.588623046875, 91.70025634765625, -3657.65087890625, -0.8293894529342651,
+                                    0.038129523396492004, 0.5573682188987732, 0, 0.9976682662963867,
+                                    -0.06825041770935059, -0.5586709380149841, -0.05660617724061012, -0.8274555206298828),
+                                rocketID)
+                        end
+                    end
+
+                    local function attackProcedure()
+                        if not loopActive then
+                            return
+                        end
+
+                        local camera = workspace.CurrentCamera
+                        if not camera then
+                            return
+                        end
+
+                        local cameraCFrame = camera.CFrame
+                        local cameraPosition = cameraCFrame.Position
+                        local cameraLookVector = cameraCFrame.LookVector
+
+                        local allPlayers = Players:GetPlayers()
+                        for _, player in ipairs(allPlayers) do
+                            if player ~= LocalPlayer and player.Character then
+                                local targetPart = player.Character:FindFirstChild("HumanoidRootPart")
+                                if targetPart then
+                                    local targetPosition = targetPart.Position
+                                    local toTarget = targetPosition - cameraPosition
+                                    local distance = toTarget.Magnitude
+                                    if cameraLookVector:Dot(toTarget.Unit) > 0 then
+                                        attackTarget(targetPart)
+                                    end
+                                end
+                            end
+                        end
+                    end
+
+                    while loopActive do
+                        attackProcedure()
+                        task.wait(0.1)
+                    end
+                end)()
+            end
+        end
+    })
+end
