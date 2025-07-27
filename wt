@@ -575,59 +575,91 @@ do
 end
 
 local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
 local LocalPlayer = Players.LocalPlayer
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
--- 获取关键组件
-local ACS_Client = LocalPlayer.Character:WaitForChild("ACS_Client")
-local RPG = LocalPlayer.Character:WaitForChild("RPG")
-local RocketSystem = ReplicatedStorage:WaitForChild("RocketSystem")
-local FireRocket = RocketSystem.Events:WaitForChild("FireRocket")
+-- 关键组件获取（带错误处理）
+local function getComponent(path, fallback)
+    local obj = game
+    for _, part in ipairs(path) do
+        if obj:FindFirstChild(part) then
+            obj = obj:FindFirstChild(part)
+        else
+            return fallback
+        end
+    end
+    return obj
+end
 
--- 攻击函数
-local function attackNonLocalPlayers()
-    for _, player in ipairs(Players:GetPlayers()) do
-        if player ~= LocalPlayer and player.Character then
-            local target = player.Character:FindFirstChild("Head") or player.Character:FindFirstChild("HumanoidRootPart")
-            
-            if target then
-                -- 创建并触发火箭攻击
-                local args = {
-                    plrFired = LocalPlayer,
-                    RocketType = "RPG Rocket",
-                    TargetPosition = target.Position,
-                    TargetCharacter = player.Character
-                }
-                
-                FireRocket:FireServer(args)
-                
-                -- 使用本地开火函数（可选）
-                if ACS_Client:FindFirstChild("fireGun") then
-                    ACS_Client.fireGun({
-                        TargetPosition = target.Position,
-                        GunType = "RPG"
-                    })
-                end
-            end
+-- 获取火箭系统组件
+local RocketSystem = getComponent({"ReplicatedStorage", "RocketSystem"}, nil)
+local FireRocket = RocketSystem and 
+                   RocketSystem:FindFirstChild("Events") and 
+                   RocketSystem.Events:FindFirstChild("FireRocket")
+
+-- 攻击非本地玩家的函数
+local function attackPlayer(player)
+    if not player.Character then return end
+    
+    local humanoidRootPart = player.Character:FindFirstChild("HumanoidRootPart")
+    if not humanoidRootPart then return end
+    
+    -- 服务器端攻击（火箭系统）
+    if FireRocket then
+        local args = {
+            plrFired = LocalPlayer,
+            RocketType = "RPG Rocket",
+            Position = humanoidRootPart.Position,
+            Target = player.Character
+        }
+        FireRocket:FireServer(args)
+    end
+    
+    -- 客户端攻击（视觉效果）
+    if LocalPlayer.Character then
+        local ACS_Client = LocalPlayer.Character:FindFirstChild("ACS_Client")
+        if ACS_Client and ACS_Client:FindFirstChild("fireGun") then
+            ACS_Client.fireGun:Invoke({
+                Target = player.Character,
+                Position = humanoidRootPart.Position
+            })
         end
     end
 end
 
--- 创建Toggle控制
+-- 创建Toggle控制（修复版）
 local Toggle = Tab:CreateToggle({
     Name = "自动攻击玩家",
     CurrentValue = false,
     Flag = "AutoAttackPlayers",
     Callback = function(Value)
+        -- 连接运行服务进行持续检测
         if Value then
-            -- 启用攻击循环
-            _G.AutoAttack = true
-            while _G.AutoAttack and task.wait(1.5) do
-                attackNonLocalPlayers()
+            -- 检查火箭系统是否可用
+            if not FireRocket then
+                warn("⚠️ 无法找到火箭系统组件，攻击可能无效")
             end
+            
+            -- 启动攻击循环
+            _G.AutoAttackConnection = RunService.Heartbeat:Connect(function()
+                for _, player in ipairs(Players:GetPlayers()) do
+                    if player ~= LocalPlayer and player.Character and 
+                       player.Character:FindFirstChild("Humanoid") and 
+                       player.Character.Humanoid.Health > 0 then
+                        attackPlayer(player)
+                    end
+                end
+                
+                -- 控制攻击频率（每2秒一次）
+                task.wait(2)
+            end)
         else
             -- 关闭攻击循环
-            _G.AutoAttack = false
+            if _G.AutoAttackConnection then
+                _G.AutoAttackConnection:Disconnect()
+                _G.AutoAttackConnection = nil
+            end
         end
     end
 })
