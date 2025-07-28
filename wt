@@ -574,96 +574,6 @@ do
     })
 end
 
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local LocalPlayer = Players.LocalPlayer
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
--- 关键组件获取（带错误处理）
-local function getComponent(path, fallback)
-    local obj = game
-    for _, part in ipairs(path) do
-        if obj:FindFirstChild(part) then
-            obj = obj:FindFirstChild(part)
-        else
-            return fallback
-        end
-    end
-    return obj
-end
-
--- 获取火箭系统组件
-local RocketSystem = getComponent({"ReplicatedStorage", "RocketSystem"}, nil)
-local FireRocket = RocketSystem and 
-                   RocketSystem:FindFirstChild("Events") and 
-                   RocketSystem.Events:FindFirstChild("FireRocket")
-
--- 攻击非本地玩家的函数
-local function attackPlayer(player)
-    if not player.Character then return end
-    
-    local humanoidRootPart = player.Character:FindFirstChild("HumanoidRootPart")
-    if not humanoidRootPart then return end
-    
-    -- 服务器端攻击（火箭系统）
-    if FireRocket then
-        local args = {
-            plrFired = LocalPlayer,
-            RocketType = "RPG Rocket",
-            Position = humanoidRootPart.Position,
-            Target = player.Character
-        }
-        FireRocket:FireServer(args)
-    end
-    
-    -- 客户端攻击（视觉效果）
-    if LocalPlayer.Character then
-        local ACS_Client = LocalPlayer.Character:FindFirstChild("ACS_Client")
-        if ACS_Client and ACS_Client:FindFirstChild("fireGun") then
-            ACS_Client.fireGun:Invoke({
-                Target = player.Character,
-                Position = humanoidRootPart.Position
-            })
-        end
-    end
-end
-
--- 创建Toggle控制（修复版）
-local Toggle = Tab:CreateToggle({
-    Name = "自动攻击玩家",
-    CurrentValue = false,
-    Flag = "AutoAttackPlayers",
-    Callback = function(Value)
-        -- 连接运行服务进行持续检测
-        if Value then
-            -- 检查火箭系统是否可用
-            if not FireRocket then
-                warn("⚠️ 无法找到火箭系统组件，攻击可能无效")
-            end
-            
-            -- 启动攻击循环
-            _G.AutoAttackConnection = RunService.Heartbeat:Connect(function()
-                for _, player in ipairs(Players:GetPlayers()) do
-                    if player ~= LocalPlayer and player.Character and 
-                       player.Character:FindFirstChild("Humanoid") and 
-                       player.Character.Humanoid.Health > 0 then
-                        attackPlayer(player)
-                    end
-                end
-                
-                -- 控制攻击频率（每2秒一次）
-                task.wait(2)
-            end)
-        else
-            -- 关闭攻击循环
-            if _G.AutoAttackConnection then
-                _G.AutoAttackConnection:Disconnect()
-                _G.AutoAttackConnection = nil
-            end
-        end
-    end
-})
-
 local Section = Tab:CreateSection("自动发射RPG(崩服神器)")
 
 do
@@ -1442,7 +1352,7 @@ local Keybind = Tab:CreateKeybind({
 
 local Keybind = Tab:CreateKeybind({
     Name = "出售箱子",
-    CurrentKeybind = "C",
+    CurrentKeybind = "X",
     HoldToInteract = false,
     Flag = "Keybind_Sell",
     Callback = function()
@@ -1602,92 +1512,6 @@ do
         Flag = "Input1",
         Callback = function(Text)
             numRockets = tonumber(Text) or 1
-        end
-    })
-end
-local Tab = Window:CreateTab("RPG功能")
-
-local Section = Tab:CreateSection("全图攻击(降频版)")
-
-do
-    local loopActive = false
-
-    local Toggle = Tab:CreateToggle({
-        Name = "全图",
-        CurrentValue = false,
-        Flag = "Toggle1",
-        Callback = function(Value)
-            loopActive = Value
-
-            if Value then
-                coroutine.wrap(function()
-
-                    local Players = game:GetService("Players")
-                    local LocalPlayer = Players.LocalPlayer
-                    local ReplicatedStorage = game:GetService("ReplicatedStorage")
-                    local RocketSystem = ReplicatedStorage:WaitForChild("RocketSystem")
-                    local FireRocket = RocketSystem.Events.FireRocket
-                    local RocketHit = RocketSystem.Events.RocketHit
-
-                    local attackPhase = "attack"
-                    local phaseStartTime = os.clock()
-
-                    local function attackProcedure()
-
-                        local character = LocalPlayer.Character
-                        if not character then
-                            return
-                        end
-                        local rootPart = character:FindFirstChild("HumanoidRootPart")
-                        if not rootPart then
-                            return
-                        end
-
-                        local attackPosition = rootPart.Position + Vector3.new(0, 1000, 0)
-
-                        local allPlayers = Players:GetPlayers()
-                        local targets = {}
-
-                        for _, player in ipairs(allPlayers) do
-                            if player ~= LocalPlayer and player.Character then
-                                table.insert(targets, player.Character:FindFirstChild("HumanoidRootPart"))
-                            end
-                        end
-
-                        local weapon = LocalPlayer.Character:FindFirstChild("Javelin")
-                        if weapon then
-                            for _, target in ipairs(targets) do
-                                if target then
-                                    FireRocket:InvokeServer(Vector3.new(), weapon, weapon, attackPosition)
-
-                                    RocketHit:FireServer(attackPosition, Vector3.new(), weapon, weapon, target, nil,
-                                        "asdfghvcqawRocket4")
-                                    task.wait(0.1)
-                                end
-                            end
-                        end
-                    end
-
-                    while loopActive do
-                        local currentTime = os.clock()
-                        local elapsed = currentTime - phaseStartTime
-
-                        if attackPhase == "attack" and elapsed >= 3 then
-                            attackPhase = "pause"
-                            phaseStartTime = os.clock()
-                        elseif attackPhase == "pause" and elapsed >= 2 then
-                            attackPhase = "attack"
-                            phaseStartTime = os.clock()
-                        end
-
-                        if attackPhase == "attack" then
-                            attackProcedure()
-                        end
-
-                        task.wait(0.1)
-                    end
-                end)()
-            end
         end
     })
 end
