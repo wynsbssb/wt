@@ -1352,7 +1352,7 @@ local Keybind = Tab:CreateKeybind({
 
 local Keybind = Tab:CreateKeybind({
     Name = "出售箱子",
-    CurrentKeybind = "X",
+    CurrentKeybind = "E",
     HoldToInteract = false,
     Flag = "Keybind_Sell",
     Callback = function()
